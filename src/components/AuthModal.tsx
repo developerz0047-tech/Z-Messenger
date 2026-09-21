@@ -24,6 +24,9 @@ async function parseResponseJson(resp: Response) {
     data = text ? JSON.parse(text) : {};
   } catch (_e) {
     if (!resp.ok) {
+      if (resp.status === 404) {
+        throw new Error("Authentication service endpoint not found (404). Please ensure server routes are configured.");
+      }
       if (resp.status === 502 || resp.status === 503 || resp.status === 504) {
         throw new Error("Server is initializing. Please wait a few seconds and try again.");
       }
