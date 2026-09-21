@@ -1,0 +1,12 @@
+{
+  "name": "Z-messenger",
+  "description": "Real-time communication app featuring text, voice and video messaging, WebRTC voice/video calls, screen sharing, file and location attachment, and built-in Gemini AI conversational assistant.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

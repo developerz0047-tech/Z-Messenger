@@ -1,0 +1,115 @@
+{
+  "entities": {
+    "users": {
+      "title": "Users",
+      "description": "User accounts, credentials, profiles, and roles",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "username": { "type": "string" },
+        "fullName": { "type": "string" },
+        "avatar": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "superadmin"] },
+        "status": { "type": "string", "enum": ["online", "offline", "in-call"] },
+        "createdAt": { "type": "number" },
+        "lastSeen": { "type": "number" }
+      },
+      "required": ["id", "email", "username", "fullName"]
+    },
+    "contacts": {
+      "title": "Contacts",
+      "description": "Contact lists associated with users",
+      "properties": {
+        "userId": { "type": "string" },
+        "contactIds": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["userId", "contactIds"]
+    },
+    "groups": {
+      "title": "Groups",
+      "description": "Multi-user communication groups with >2 members",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "avatar": { "type": "string" },
+        "creatorId": { "type": "string" },
+        "memberIds": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "number" },
+        "lastMessage": { "type": "string" },
+        "lastMessageTime": { "type": "number" }
+      },
+      "required": ["id", "name", "creatorId", "memberIds"]
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Direct and group chat messages",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "type": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "read": { "type": "boolean" }
+      },
+      "required": ["id", "conversationId", "senderId", "receiverId", "type", "content", "timestamp"]
+    },
+    "stories": {
+      "title": "Stories",
+      "description": "24-hour expiring visual stories with privacy restrictions",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string" },
+        "caption": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "expiresAt": { "type": "number" },
+        "restrictedUserIds": { "type": "array", "items": { "type": "string" } },
+        "viewers": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "userId", "mediaUrl", "createdAt", "expiresAt"]
+    },
+    "call_logs": {
+      "title": "Call Logs",
+      "description": "Recent and missed calls with durations",
+      "properties": {
+        "id": { "type": "string" },
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "callerUsername": { "type": "string" },
+        "callerAvatar": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverUsername": { "type": "string" },
+        "receiverAvatar": { "type": "string" },
+        "type": { "type": "string", "enum": ["video", "audio"] },
+        "status": { "type": "string", "enum": ["completed", "missed", "declined", "cancelled"] },
+        "durationSeconds": { "type": "number" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "callerId", "receiverId", "type", "status", "timestamp"]
+    },
+    "bot_requests": {
+      "title": "Bot Requests",
+      "description": "User requests for AI chatbot access and phone number verification",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "fullName": { "type": "string" },
+        "avatar": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "notes": { "type": "string" },
+        "requestedAt": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewedAt": { "type": "number" },
+        "reviewedBy": { "type": "string" }
+      },
+      "required": ["id", "userId", "username", "fullName", "email", "phoneNumber", "requestedAt", "status"]
+    }
+  }
+}

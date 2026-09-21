@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Z-Messenger</title>
+    <meta name="description" content="Real-time communication app featuring direct messaging, multi-person group chats, group DP management, stories, and location and media attachments." />
+    <meta property="og:title" content="Z-Messenger" />
+    <meta property="og:description" content="Real-time communication app featuring direct messaging, multi-person group chats, group DP management, stories, and location and media attachments." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      // Cleanly intercept and mute benign Vite HMR websocket connection errors
+      (function() {
+        const isWsError = function(msg) {
+          const str = String(msg || '');
+          return str.includes('WebSocket') || str.includes('websocket') || str.includes('closed without opened');
+        };
+
+        window.addEventListener('error', function(e) {
+          if (e && (isWsError(e.message) || isWsError(e.error?.message))) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(e) {
+          if (e && (isWsError(e.reason) || isWsError(e.reason?.message))) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return true;
+          }
+        });
+
+        // Patch WebSocket error event dispatcher to mute connection warnings
+        if (typeof window.WebSocket !== 'undefined') {
+          const OrigWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            const ws = protocols !== undefined ? new OrigWebSocket(url, protocols) : new OrigWebSocket(url);
+            ws.addEventListener('error', function(errEvent) {
+              if (errEvent && errEvent.stopImmediatePropagation) {
+                errEvent.stopImmediatePropagation();
+              }
+            });
+            return ws;
+          };
+          window.WebSocket.prototype = OrigWebSocket.prototype;
+          window.WebSocket.CONNECTING = OrigWebSocket.CONNECTING;
+          window.WebSocket.OPEN = OrigWebSocket.OPEN;
+          window.WebSocket.CLOSING = OrigWebSocket.CLOSING;
+          window.WebSocket.CLOSED = OrigWebSocket.CLOSED;
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-amber-500/5 text-neutral-900 antialiased font-['Plus_Jakarta_Sans',sans-serif] selection:bg-orange-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
